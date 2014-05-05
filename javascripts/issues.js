@@ -22,11 +22,11 @@ var currentUser;
 var client;
 var gk;
 
-if (window.location.href.indexOf('//localhost') != -1) {
+if (window.location.href.indexOf('//localhost') !== -1) {
   client = '53fa7472045a17012bf4';
   gk = 'lhgk';
 } else {
-  client = '419a3a835ab5c2bbc946';
+  client = '17d41b715e1dd3d5aa04';
   gk = 'cgk';
 }
 
