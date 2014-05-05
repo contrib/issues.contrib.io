@@ -1,0 +1,8 @@
+table#issue-columns {
+  width: 100%;
+}
+
+.issue-column {
+  vertical-align: top;
+  border: 1px solid #ccc;
+}
