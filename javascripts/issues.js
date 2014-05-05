@@ -10,8 +10,6 @@
 (function(){
 
 var code;
-var codeMatch = window.location.href.match(/\?code=(.*)/);
-var repoURL = 'https://api.github.com/repos/videojs/video.js';
 var categoryLabels = ['enhancement', 'bug', 'question', 'feature'];
 var maintainers = ['heff', 'mmcc'];
 var token;
@@ -22,6 +20,17 @@ var currentUser;
 var client;
 var gk;
 
+var queryVars = {};
+window.location.search.substring(1).split('&').forEach(function(str){
+  if (!str) return;
+  str = str.split('=');
+  queryVars[str[0]] = str[1];
+});
+
+var codeMatch = window.location.href.match(/\?code=(.*)/);
+var repoName = queryVars.repo || 'videojs/video.js';
+var repoURL = 'https://api.github.com/repos/'+decodeURIComponent(repoName);
+
 if (window.location.href.indexOf('//localhost') !== -1) {
   client = '53fa7472045a17012bf4';
   gk = 'lhgk';
@@ -30,8 +39,8 @@ if (window.location.href.indexOf('//localhost') !== -1) {
   gk = 'cgk';
 }
 
-if (codeMatch) {
-  code = codeMatch[1];
+if (queryVars.code) {
+  code = queryVars.code;
 } else {
   getAuthCode();
   return;
