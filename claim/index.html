@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="../stylesheets/pure.css">
     <link rel="stylesheet" href="../stylesheets/issues.css">
   </head>
   <body>
-
-    <table id="issue-columns">
-      <tr>
-        <th>Needs Categorizing</th>
-        <th>Needs Confirming/answering</th>
-        <th>Needs Claiming</th>
-        <th>Needs Completing</th>
-      </tr>
-      <tr>
-        <td id="uncategorized-column"  class="issue-column">
-          <div id="uncategorized-issues"></div>
-        </td>
-        <td id="unconfirmed-column" class="issue-column">
-          <div id="unconfirmed-issues"></div>
-        </td>
-        <td id="unclaimed-column" class="issue-column">
-          <div id="unclaimed-issues"></div>
-        </td>
-        <td id="incomplete-column" class="issue-column">
-          <div id="incomplete-issues"></div>
-        </td>
-      </tr>
-    </table>
+    <div class="pure-g">
+      <div class="pure-u-1-4 uncategorized-issues">
+        <h3>Needs Categorizing</h3>
+        <div class="content"></div>
+      </div>
+      <div class="pure-u-1-4 unconfirmed-issues">
+        <h3>Needs Confirming / Answering</h3>
+        <div class="content"></div>
+      </div>
+      <div class="pure-u-1-4 unclaimed-issues">
+        <h3>Needs Claiming</h3>
+        <div class="content"></div>
+      </div>
+      <div class="pure-u-1-4 incomplete-issues">
+        <h3>Needs Completing</h3>
+        <div class="content"></div>
+      </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="../bower_components/lodash/dist/lodash.js"></script>

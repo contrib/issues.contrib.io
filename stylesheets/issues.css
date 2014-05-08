@@ -1,8 +1,45 @@
-table#issue-columns {
-  width: 100%;
+/*!
+Pink:   #c064c2
+Orange: #c8976a
+Green:  #74ce71
+Blue:   #78a9d4
+Light Blue: #78a9d4
+ */
+
+body {
+  background-color: #cccccc;
 }
 
-.issue-column {
-  vertical-align: top;
-  border: 1px solid #ccc;
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.issue {
+  padding: 0 10px 10px 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #000;
+}
+
+.issue-number {
+  width: 45px;
+  display: block;
+  float: left;
+  text-decoration: underline;
+}
+
+.uncategorized-issues {
+  background-color: #c064c2;
+}
+
+.unconfirmed-issues {
+  background-color: #c8976a;
+}
+
+.unclaimed-issues {
+  background-color: #74ce71;
+}
+
+.incomplete-issues {
+  background-color: #78a9d4;
 }

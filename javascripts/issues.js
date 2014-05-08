@@ -1,7 +1,7 @@
 // http://fajitanachos.com/Authenticating-with-the-GitHub-API/
 // Use gatekeeper to log people in
 // https://github.com/prose/gatekeeper
-// 
+//
 // Use github.js for other tasks
 // https://github.com/michael/github
 // other
@@ -168,7 +168,7 @@ function getAllIssues(options, callback){
             issue.commenters.push(comment.user.login);
           }
 
-          
+
         }
       });
 
@@ -282,7 +282,7 @@ function getIncompleteIssues(callback){
 
   _.each(allIssues, function(issue){
     if (issue.state == 'claimed') {
-      incomplete.push(issue); 
+      incomplete.push(issue);
     }
   });
 
@@ -290,23 +290,25 @@ function getIncompleteIssues(callback){
 }
 
 function updateIssueColumn(columnName, issues){
-  var html = '';
-
-  _.each(issues, function(issue){
-    html += '<div>';
-
-    if (issue.needsResponse()) {
-      html += '* ';
-    }
-
-    html += '<a href="'+issue.html_url+'" target="_blank">'+issue.number+'</a> '+issue.title+'</div>';
-  });
-
-  if (!html) {
-    html = 'No issues';
+  if (issues.length === 0) {
+    $('.'+columnName+'-issues .content').html('No issues');
+    return;
   }
 
-  $('#'+columnName+'-issues').html(html);
+  _.each(issues, function(issue){
+    var issueDiv = $('<div class="issue '+ issue.number +'"></div>');
+
+    if (issue.needsResponse()) {
+      issueDiv.addClass('needs-response');
+    }
+
+    issueDiv.append('<a href="issue.html_url" targt="_blank">'+
+                    '  <span class="issue-number">'+ issue.number +'</span>'+
+                       issue.title +
+                    '</a>');
+
+    $('.'+columnName+'-issues .content').append(issueDiv);
+  });
 };
 
 
@@ -484,5 +486,4 @@ Issue.prototype.getComments = function(callback){
     callback(this.commentList_);
   });
 };
-
 })();
