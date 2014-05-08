@@ -16,7 +16,7 @@ bundle install
 
 ## Run server
 ```
-bundle exec jekyll serve
+bundle exec jekyll serve --watch
 ```
 
 ## Deploy
