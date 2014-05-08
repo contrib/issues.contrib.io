@@ -21,7 +21,14 @@ var allIssues = [];
 var allIssuesByNum = {};
 var allComments = [];
 
-var repoName = decodeURIComponent(window.queryVars.repo) || 'videojs/video.js';
+var repoName;
+if (window.queryVars.repo) {
+  repoName = decodeURIComponent(window.queryVars.repo);
+} else {
+  repoName = 'videojs/video.js';
+}
+
+console.log(repoName, window.queryVars.repo);
 var repoUrlPart = '/repos/'+repoName;
 var repoURL = 'https://api.github.com/repos/'+repoName;
 
@@ -117,7 +124,7 @@ gh.getIndexAll = function(urlPart, options, callback){
   }
 };
 
-function getAllIssues(options, callback){
+gh.getAllIssues = function(options, callback){
   allIssues = []; // store.get('allIssues')
   allIssuesByNum = {};
 
@@ -144,7 +151,7 @@ function getAllIssues(options, callback){
     });
 
     // update all comments and associate them with issues
-    getAllComments({}, function(comments){
+    gh.getAllComments({}, function(comments){
       _.each(comments, function(comment, i){
         comment.issue_number = parseInt(comment.issue_url.replace(/^\D+/, ''), 10);
 
@@ -167,7 +174,7 @@ function getAllIssues(options, callback){
   });
 }
 
-function getIssuesComments(options, callback){
+gh.getIssuesComments = function(options, callback){
   options = _.merge({
     per_page: 100,
     sort: 'created',
@@ -180,7 +187,7 @@ function getIssuesComments(options, callback){
   });
 }
 
-function getAllComments(options, callback) {
+gh.getAllComments = function(options, callback) {
   // reset all comments array
   allComments = [];
 
@@ -196,7 +203,7 @@ function getAllComments(options, callback) {
   });
 }
 
-function sortByNeedsResponse(issues){
+gh.sortByNeedsResponse = function(issues){
   var needs = [];
   var noNeeds = [];
   issues = issues || allIssues;
@@ -212,14 +219,14 @@ function sortByNeedsResponse(issues){
   return needs.concat(noNeeds);
 }
 
-function sortByCommentersCount(issues){
+gh.sortByCommentersCount = function(issues){
   issues = issues || allIssues;
 
   // lodash-fu to sort by commenter number decsending
   return _(issues).sortBy(function(issue){ return issue.commenters.length }).reverse().value();
 }
 
-function getUncategorizedIssues(callback){
+gh.getUncategorizedIssues = function(callback){
   var uncategorized = [];
 
   _.each(allIssues, function(issue){
@@ -228,10 +235,10 @@ function getUncategorizedIssues(callback){
     }
   });
 
-  callback(sortByNeedsResponse(uncategorized));
-}
+  callback(gh.sortByNeedsResponse(uncategorized));
+};
 
-function getUnconfirmedIssues(callback){
+gh.getUnconfirmedIssues = function(callback){
   var unconfirmed = [];
 
   // check for issues that have nobody assigned to them
@@ -241,10 +248,10 @@ function getUnconfirmedIssues(callback){
     }
   });
 
-  callback(sortByNeedsResponse(unconfirmed));
+  callback(gh.sortByNeedsResponse(unconfirmed));
 }
 
-function getUnclaimedIssues(callback){
+gh.getUnclaimedIssues = function(callback){
   var unclaimed = [];
 
   // check for issues that have nobody assigned to them
@@ -254,10 +261,10 @@ function getUnclaimedIssues(callback){
     }
   });
 
-  callback(sortByCommentersCount(unclaimed));
+  callback(gh.sortByCommentersCount(unclaimed));
 }
 
-function getIncompleteIssues(callback){
+gh.getIncompleteIssues = function(callback){
   var incomplete = [];
 
   _.each(allIssues, function(issue){
@@ -266,7 +273,7 @@ function getIncompleteIssues(callback){
     }
   });
 
-  callback(sortByNeedsResponse(incomplete));
+  callback(gh.sortByNeedsResponse(incomplete));
 }
 
 /**
