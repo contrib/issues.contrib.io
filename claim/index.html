@@ -1,34 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="../stylesheets/pure.css">
-    <link rel="stylesheet" href="../stylesheets/issues.css">
+    <link rel="stylesheet" href="../stylesheets/claim.css">
   </head>
   <body>
-    <div class="pure-g">
-      <div class="pure-u-1-4 uncategorized-issues">
-        <h3>Needs Categorizing</h3>
-        <div class="content"></div>
-      </div>
-      <div class="pure-u-1-4 unconfirmed-issues">
-        <h3>Needs Confirming / Answering</h3>
-        <div class="content"></div>
-      </div>
-      <div class="pure-u-1-4 unclaimed-issues">
-        <h3>Needs Claiming</h3>
-        <div class="content"></div>
-      </div>
-      <div class="pure-u-1-4 incomplete-issues">
-        <h3>Needs Completing</h3>
-        <div class="content"></div>
-      </div>
+    <div id="issues" class="">
+
     </div>
 
     <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="../bower_components/lodash/dist/lodash.js"></script>
-    <!--<script src="store.min.js"></script>-->
+    <script src="../javascripts/store.min.js"></script>
     <script src="../javascripts/util.js"></script>
     <script src="../javascripts/github.js"></script>
-    <script src="../javascripts/issues.js"></script>
+
+    <script src="../javascripts/claim.js"></script>
   </body>
 </html>

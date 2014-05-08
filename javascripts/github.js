@@ -168,6 +168,8 @@ gh.getAllIssues = function(options, callback){
         }
       });
 
+      sessionStorage.setItem('allIssues', allIssues);
+
       // finish getAllIssues
       callback(allIssues);
     });

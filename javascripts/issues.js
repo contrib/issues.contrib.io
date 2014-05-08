@@ -1,3 +1,5 @@
+store.set('asdf', 'fdsa');
+
 gh.authenticate(function(){
   gh.getUser({}, function(user){
     currentUser = user;
