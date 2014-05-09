@@ -7,14 +7,6 @@ window.location.search.substring(1).split('&').forEach(function(str){
   window.queryVars[str[0]] = str[1];
 });
 
-window.utils.showLoading = function() {
-  $('.loading').show();
-}
-
-window.utils.hideLoading = function() {
-  $('.loading').hide();
-}
-
 window.utils.loading = {
   show: function(text) {
     text = text || 'Loading fresh data';
