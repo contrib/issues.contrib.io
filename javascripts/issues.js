@@ -4,7 +4,10 @@ gh.authenticate(function(){
   gh.getUser({}, function(user){
     currentUser = user;
 
+    utils.loading.show();
+
     gh.getAllIssues({}, function(allIssues){
+      utils.loading.hide();
       $(function(){
         gh.getUncategorizedIssues(function(issues){
           updateIssueColumn('uncategorized', issues);
@@ -35,14 +38,14 @@ function updateIssueColumn(columnName, issues){
   }
 
   _.each(issues, function(issue){
-    var issueDiv = $('<div class="issue '+ issue.number +'"></div>');
+    var issueDiv = $('<div id="'+ issue.number +'" class="issue"></div>');
 
     if (issue.needsResponse()) {
       issueDiv.addClass('needs-response');
     }
 
-    issueDiv.append('<a href="issue.html_url" targt="_blank">'+
-                    '  <span class="issue-number">'+ issue.number +'</span>'+
+    issueDiv.append('<span class="issue-number">'+ issue.number +'</span>'+
+                    '<a href="'+ issue.html_url +'" targt="_blank">'+
                        issue.title +
                     '</a>');
 
