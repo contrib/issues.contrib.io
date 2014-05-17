@@ -1,63 +1,108 @@
 /*!
-Pink:   #c064c2
-Orange: #c8976a
-Green:  #74ce71
-Blue:   #78a9d4
-Light Blue: #78a9d4
+ *  Grey: #abb2b1;
+ *  Red:  #dd716c;
+ *  Blue: #afcce7;
+ *  Green:#a5cab3 ;
  */
+html, body { height: 100% }
 
-body {
-  background-color: #cccccc;
+body { position: relative; }
+
+/* Common things */
+.pure-button.error {
+  background-color: #dd716c;
 }
 
 header {
   background-color: #ffffff;
   width: 100%;
+  border-bottom: 2px solid #9099c9;
+}
+header .logo {
   height: 60px;
+  width: auto;
+  margin: 5px 0 0 5px;
 }
-header h3 { float: left; }
-header .loading {
+
+header .buttons {
   float: right;
-  line-height: 60px;
-  font-size: 1.2em;
+  font-size: 2em;
 }
+header .pure-button {
+  float: right;
+  border-radius: 0px;
+}
+
+.reload { }
+.reload.active { }
+.reload.inactive { }
 
 a {
   color: #000;
 }
 
+.main {
+  position: absolute;
+  top: 70px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+}
+
+.column {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+  border-right: 2px solid #abb2b1;
+  height: 100%;
+  overflow-y: scroll;
+}
+.column h3 {
+  line-height: 30px;
+  width: 25%;
+  text-align: center;
+  margin: 0;
+  background-color: #afcce7;
+  position: fixed;
+  z-index: 5;
+  border-bottom: 1px solid #9099c9;
+}
+.column .content {
+  margin-top: 30px;
+  position: relative;
+  padding: 5px;
+}
+.column.finished {
+  background-color: #a5cab3;
+}
+
+.uncategorized-issues { }
+
+.unconfirmed-issues { }
+
+.unclaimed-issues { }
+
+.incomplete-issues { border-right: none; }
+
 .issue {
-  padding: 10px;
-  border-bottom: 1px solid #000;
+  border: 1px solid #aab1b1;
   position: relative;
   min-height: 30px;
+  margin-bottom: 10px;
 }
-
 .issue .issue-number {
-  float: right;
-  margin-left: 10px;
   padding: 4px;
-  border-radius: 4px;
-  background-color: #fff;
+  background-color: #cbb38d;
   color: #000;
+  display: block;
 }
-
-.issue.needs-response .issue-number {
-  background-color: #FA4B62;
+.issue.needs-response {
+  border-color: #FA4B62;
 }
-
-.uncategorized-issues {
-  background-color: #c064c2;
+.issue.finished {
+  background-color: #a5cab3;
 }
-
-.unconfirmed-issues {
-  background-color: #c8976a;
-}
-
-.unclaimed-issues {
-  background-color: #74ce71;
-}
-
-.incomplete-issues {
-  background-color: #78a9d4;
+.issue a {
+  padding: 5px;
+  display: block;
 }

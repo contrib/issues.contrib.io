@@ -1,12 +1,21 @@
-store.set('asdf', 'fdsa');
+var db = new PouchDB('issues');
+var remoteCouch = false;
+
+$(function() {
+  $('.reload').click(loadIssues);
+});
 
 gh.authenticate(function(){
   gh.getUser({}, function(user){
     currentUser = user;
 
-    utils.loading.show();
+    loadIssues();
+  });
+});
 
-    gh.getAllIssues({}, function(allIssues){
+function loadIssues() {
+  utils.loading.show();
+  gh.getAllIssues({}, function(allIssues){
       utils.loading.hide();
       $(function(){
         gh.getUncategorizedIssues(function(issues){
@@ -27,13 +36,11 @@ gh.authenticate(function(){
       });
 
     });
-  });
-});
-
+}
 
 function updateIssueColumn(columnName, issues){
-  if (issues.length === 0) {
-    $('.'+columnName+'-issues .content').html('No issues');
+  if (_.isEmpty(issues)) {
+    $('.'+columnName+'-issues').addClass('finished');
     return;
   }
 
@@ -44,8 +51,8 @@ function updateIssueColumn(columnName, issues){
       issueDiv.addClass('needs-response');
     }
 
-    issueDiv.append('<span class="issue-number">'+ issue.number +'</span>'+
-                    '<a href="'+ issue.html_url +'" targt="_blank">'+
+    issueDiv.append('<span class="issue-number">'+ issue.number +'</span>');
+    issueDiv.append('<a href="'+ issue.html_url +'" target="_blank">'+
                        issue.title +
                     '</a>');
 
