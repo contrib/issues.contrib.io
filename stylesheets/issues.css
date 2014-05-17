@@ -1,16 +1,16 @@
 /*!
  *  Grey: #abb2b1;
- *  Red:  #dd716c;
+ *  Red:  #dc706b;
  *  Blue: #afcce7;
  *  Green:#a5cab3 ;
  */
 html, body { height: 100% }
 
-body { position: relative; }
+body { position: relative; font-size: 0.8em; }
 
 /* Common things */
 .pure-button.error {
-  background-color: #dd716c;
+  background-color: #dc706b;
 }
 
 header {
@@ -19,7 +19,7 @@ header {
   border-bottom: 2px solid #9099c9;
 }
 header .logo {
-  height: 60px;
+  height: 48px;
   width: auto;
   margin: 5px 0 0 5px;
 }
@@ -39,11 +39,12 @@ header .pure-button {
 
 a {
   color: #000;
+  text-decoration: none;
 }
 
 .main {
   position: absolute;
-  top: 70px;
+  top: 58px;
   bottom: 0px;
   right: 0px;
   left: 0px;
@@ -92,12 +93,15 @@ a {
 }
 .issue .issue-number {
   padding: 4px;
-  background-color: #cbb38d;
-  color: #000;
+  background-color: #abb2b1;
+  color: #fff;
   display: block;
 }
+.issue.needs-response .issue-number {
+  background-color: #dc706b;
+}
 .issue.needs-response {
-  border-color: #FA4B62;
+  border-color: #dc706b;
 }
 .issue a {
   padding: 5px;
