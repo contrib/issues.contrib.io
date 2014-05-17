@@ -72,7 +72,7 @@ a {
   position: relative;
   padding: 5px;
 }
-.column.finished {
+.column.finished h3 {
   background-color: #a5cab3;
 }
 
@@ -98,9 +98,6 @@ a {
 }
 .issue.needs-response {
   border-color: #FA4B62;
-}
-.issue.finished {
-  background-color: #a5cab3;
 }
 .issue a {
   padding: 5px;

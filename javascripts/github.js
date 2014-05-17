@@ -1,7 +1,7 @@
 // http://fajitanachos.com/Authenticating-with-the-GitHub-API/
 // Use gatekeeper to log people in
 // https://github.com/prose/gatekeeper
-// 
+//
 // Use github.js for other tasks
 // https://github.com/michael/github
 // other
@@ -164,7 +164,7 @@ gh.getAllIssues = function(options, callback){
             issue.commenters.push(comment.user.login);
           }
 
-          
+
         }
       });
 
@@ -271,7 +271,7 @@ gh.getIncompleteIssues = function(callback){
 
   _.each(allIssues, function(issue){
     if (issue.state == 'claimed') {
-      incomplete.push(issue); 
+      incomplete.push(issue);
     }
   });
 
