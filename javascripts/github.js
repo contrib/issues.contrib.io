@@ -163,8 +163,6 @@ gh.getAllIssues = function(options, callback){
           if (issue.commenters.indexOf(comment.user.login) <= 0) {
             issue.commenters.push(comment.user.login);
           }
-
-
         }
       });
 
@@ -293,6 +291,8 @@ gh.Issue = function(data){
   this.comments_count = this.comments;
   this.comments = [];
   this.commenters = [];
+
+  this.save();
 }
 
 gh.Issue.prototype.getState = function(){
@@ -452,5 +452,32 @@ gh.Issue.prototype.getComments = function(callback){
     callback(this.commentList_);
   });
 };
+
+gh.Issue.prototype.save = function(callback) {
+  var issue = this;
+
+  var dbEntry = {
+    _id: issue.id.toString(),
+    completed: issue.completed || false,
+    issue: issue
+  }
+
+  db.get(issue.id.toString()).then(function(original) {
+    dbEntry._rev = original._rev;
+
+    console.log(original);
+
+    return db.put(dbEntry);
+  }, function(err, response) {
+    if (err) {
+      console.log(err);
+      if (err.status === 404) {
+        db.put(dbEntry);
+      }
+    } else {
+      console.log(response);
+    }
+  });
+}
 
 })();

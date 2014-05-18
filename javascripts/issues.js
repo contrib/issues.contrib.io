@@ -37,19 +37,6 @@ function loadIssues() {
     });
 }
 
-// TODO: Move this into the Github module
-function addIssueToDb(columnName, issue) {
-  var newIssue = {
-    _id: new Date().toISOString(),
-    group: columnName,
-    issue: issue,
-    completed: false
-  };
-  db.put(newIssue, function callback(err, result) {
-    if (err) { console.log(err) }
-  });
-}
-
 function updateIssueColumn(columnName, issues){
   if (_.isEmpty(issues)) {
     $('.'+columnName+'-issues').addClass('finished');
@@ -57,8 +44,6 @@ function updateIssueColumn(columnName, issues){
   }
 
   _.each(issues, function(issue){
-    addIssueToDb(columnName, issue);
-
     var issueDiv = $('<div id="'+ issue.number +'" class="issue"></div>');
 
     if (issue.needsResponse()) {
