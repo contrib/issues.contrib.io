@@ -1,12 +1,34 @@
-store.set('asdf', 'fdsa');
+var db = new PouchDB('issues');
+
+$(function() {
+  $('.reload').click(function(e) {
+    loadIssues();
+  });
+});
 
 gh.authenticate(function(){
   gh.getUser({}, function(user){
     currentUser = user;
 
-    utils.loading.show();
+    // Disabling this for now until we set up everything to load from
+    // the DB first as discussed.
 
-    gh.getAllIssues({}, function(allIssues){
+    // db.get('last-updated').then(function(lastUpdated) {
+    //   loadIssues({ since: lastUpdated, _rev: lastUpdated._rev });
+    // }).catch(function(e) {
+    //   loadIssues();
+    // });
+    
+    loadIssues();
+  });
+});
+
+function loadIssues(options) {
+  utils.loading.show();
+
+  options = options || {};
+
+  gh.getAllIssues(options, function(allIssues){
       utils.loading.hide();
       $(function(){
         gh.getUncategorizedIssues(function(issues){
@@ -26,16 +48,19 @@ gh.authenticate(function(){
         });
       });
 
+      updateTimestamp(options._rev);
     });
-  });
-});
-
+}
 
 function updateIssueColumn(columnName, issues){
-  if (issues.length === 0) {
-    $('.'+columnName+'-issues .content').html('No issues');
+  if (_.isEmpty(issues)) {
+    $('.'+columnName+'-issues').addClass('finished');
     return;
   }
+
+  var $columnEl = $('.'+columnName+'-issues .content');
+
+  $columnEl.empty();
 
   _.each(issues, function(issue){
     var issueDiv = $('<div id="'+ issue.number +'" class="issue"></div>');
@@ -44,12 +69,19 @@ function updateIssueColumn(columnName, issues){
       issueDiv.addClass('needs-response');
     }
 
-    issueDiv.append('<span class="issue-number">'+ issue.number +'</span>'+
-                    '<a href="'+ issue.html_url +'" targt="_blank">'+
+    issueDiv.append('<span class="issue-number">'+ issue.number +'</span>');
+    issueDiv.append('<a href="'+ issue.html_url +'" target="_blank">'+
                        issue.title +
                     '</a>');
 
-    $('.'+columnName+'-issues .content').append(issueDiv);
+    $columnEl.append(issueDiv);
   });
-};
+}
 
+function updateTimestamp(_rev) {
+  db.put({
+    timestamp: Date.now()
+  }, 'last-updated', _rev).then(function(newDoc) {
+    console.log(newDoc);
+  });
+}

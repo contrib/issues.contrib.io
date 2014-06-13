@@ -1,7 +1,7 @@
 // http://fajitanachos.com/Authenticating-with-the-GitHub-API/
 // Use gatekeeper to log people in
 // https://github.com/prose/gatekeeper
-// 
+//
 // Use github.js for other tasks
 // https://github.com/michael/github
 // other
@@ -163,8 +163,6 @@ gh.getAllIssues = function(options, callback){
           if (issue.commenters.indexOf(comment.user.login) <= 0) {
             issue.commenters.push(comment.user.login);
           }
-
-          
         }
       });
 
@@ -174,7 +172,7 @@ gh.getAllIssues = function(options, callback){
       callback(allIssues);
     });
   });
-}
+};
 
 gh.getIssuesComments = function(options, callback){
   options = _.merge({
@@ -187,7 +185,7 @@ gh.getIssuesComments = function(options, callback){
   $.getJSON(repoURL+'/issues/comments', options, function(comments){
     callback(comments);
   });
-}
+};
 
 gh.getAllComments = function(options, callback) {
   // reset all comments array
@@ -203,7 +201,7 @@ gh.getAllComments = function(options, callback) {
     allComments = allComments.concat(comments);
     callback(allComments);
   });
-}
+};
 
 gh.sortByNeedsResponse = function(issues){
   var needs = [];
@@ -219,14 +217,14 @@ gh.sortByNeedsResponse = function(issues){
   });
 
   return needs.concat(noNeeds);
-}
+};
 
 gh.sortByCommentersCount = function(issues){
   issues = issues || allIssues;
 
   // lodash-fu to sort by commenter number decsending
-  return _(issues).sortBy(function(issue){ return issue.commenters.length }).reverse().value();
-}
+  return _(issues).sortBy(function(issue){ return issue.commenters.length; }).reverse().value();
+};
 
 gh.getUncategorizedIssues = function(callback){
   var uncategorized = [];
@@ -251,7 +249,7 @@ gh.getUnconfirmedIssues = function(callback){
   });
 
   callback(gh.sortByNeedsResponse(unconfirmed));
-}
+};
 
 gh.getUnclaimedIssues = function(callback){
   var unclaimed = [];
@@ -264,19 +262,19 @@ gh.getUnclaimedIssues = function(callback){
   });
 
   callback(gh.sortByCommentersCount(unclaimed));
-}
+};
 
 gh.getIncompleteIssues = function(callback){
   var incomplete = [];
 
   _.each(allIssues, function(issue){
     if (issue.state == 'claimed') {
-      incomplete.push(issue); 
+      incomplete.push(issue);
     }
   });
 
   callback(gh.sortByNeedsResponse(incomplete));
-}
+};
 
 /**
  * Issue Class
@@ -293,18 +291,21 @@ gh.Issue = function(data){
   this.comments_count = this.comments;
   this.comments = [];
   this.commenters = [];
-}
+
+  this.save();
+};
 
 gh.Issue.prototype.getState = function(){
   if (!this.isCategorized()) {
-    return this.state = 'created';
+    this.state = 'created';
   } else if (!this.isConfirmed()) {
-    return this.state = 'categorized';
+    this.state = 'categorized';
   } else if (!this.isClaimed()) {
-    return this.state = 'confirmed';
+    this.state = 'confirmed';
   } else {
-    return this.state = 'claimed';
+    this.state = 'claimed';
   }
+  return this.state;
 };
 
 gh.Issue.prototype.isCategorized = function(){
@@ -391,7 +392,7 @@ gh.Issue.prototype.needsResponse = function(callback){
   }
 
   if (maintainers.indexOf(_currentUser.login) >= 0) {
-    if (this.comments_count == 0) {
+    if (this.comments_count === 0) {
       if (!this.confirmed_) {
         // if there's no comments on an unconfirmed issue, it needs a response
         return true;
@@ -436,7 +437,7 @@ gh.Issue.prototype.getComments = function(callback){
     return callback(issue.commentList_);
   }
 
-  if (this.comments_count == 0) {
+  if (this.comments_count === 0) {
     this.commentList_ = [];
     return callback(this.commentList_);
   }
@@ -450,6 +451,31 @@ gh.Issue.prototype.getComments = function(callback){
   gh.get(repoURLPart+'/issues/'+this.number+'/comments', {}, function(comments){
     this.commentList_ = comments;
     callback(this.commentList_);
+  });
+};
+
+gh.Issue.prototype.save = function(callback) {
+  var issue = this;
+
+  var dbEntry = {
+    _id: issue.id.toString(),
+    completed: issue.completed || false,
+    issue: issue
+  };
+
+  db.get(issue.id.toString()).then(function(original) {
+    dbEntry._rev = original._rev;
+
+    console.log(original);
+
+    return db.put(dbEntry);
+  }, function(err, response) {
+    if (err) {
+      console.error(err);
+      if (err.status === 404) db.put(dbEntry);
+    } else {
+      console.log(response);
+    }
   });
 };
 

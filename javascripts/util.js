@@ -10,9 +10,11 @@ window.location.search.substring(1).split('&').forEach(function(str){
 window.utils.loading = {
   show: function(text) {
     text = text || 'Loading fresh data';
-    $('.loading').html('<i class="ion-looping"></i> '+ text)
+    $('.reload').removeClass('inactive').addClass('active');
+    $('.reload').html('<i class="ion-ios7-reloading"></i>');
   },
   hide: function() {
-    $('.loading').html('');
+    $('.reload').removeClass('active').addClass('inactive');
+    $('.reload').html('<i class="ion-ios7-reload"></i>');
   }
-}
+};
