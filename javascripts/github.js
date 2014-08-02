@@ -16,7 +16,7 @@ var _authToken;
 var _currentUser;
 
 var categoryLabels = ['enhancement', 'bug', 'question', 'feature'];
-var maintainers = ['heff', 'mmcc'];
+var maintainers = ['heff', 'mmcc', 'gkatsev'];
 var allIssues = [];
 var allIssuesByNum = {};
 var allComments = [];
