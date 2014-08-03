@@ -33,8 +33,8 @@ var repoUrlPart = '/repos/'+repoName;
 var repoURL = 'https://api.github.com/repos/'+repoName;
 
 // Set up the correct client and gatekeeper depending on if this is localhost
-var _client;
-var _gk;
+var client;
+var gk;
 
 if (window.location.href.indexOf('//localhost') !== -1) {
   client = '53fa7472045a17012bf4';
@@ -73,7 +73,7 @@ gh.getAuthToken = function(callback){
 
 gh.getAuthCode = function(){
   // redirect to github login, which will redirect back to this page
-  window.location.href = 'https://github.com/login/oauth/authorize?client_id='+client+'&redirect_uri='+encodeURIComponent(window.location.href);
+  window.location.href = 'https://github.com/login/oauth/authorize?client_id='+client+'&scope=repo&redirect_uri='+encodeURIComponent(window.location.href);
 };
 
 gh.get = function(urlPart, options, callback){
@@ -81,7 +81,43 @@ gh.get = function(urlPart, options, callback){
     access_token: _authToken
   }, options);
 
+  console.log('authToken', _authToken);
+
   $.getJSON('https://api.github.com'+urlPart, options, callback);
+};
+
+gh.patch = function(urlPart, data, callback){
+  var settings = {
+    type: 'PATCH',
+    dataType: 'json',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'token '+_authToken,
+      'Accept': 'application/vnd.github.v3+json'
+    },
+    data: JSON.stringify(data),
+    error: function(jqXHR, status, err){ alert(err); },
+    success: callback
+  };
+
+  $.ajax('https://api.github.com'+urlPart, settings, callback);
+};
+
+gh.post = function(urlPart, data, callback){
+  var settings = {
+    type: 'POST',
+    dataType: 'json',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'token '+_authToken,
+      'Accept': 'application/vnd.github.v3+json'
+    },
+    data: JSON.stringify(data),
+    error: function(jqXHR, status, err){ alert(err); },
+    success: callback
+  };
+
+  $.ajax('https://api.github.com'+urlPart, settings, callback);
 };
 
 gh.getUser = function(options, callback){

@@ -1,0 +1,61 @@
+body {
+  font-family: Helvetica;
+  line-height: 1.4em;
+}
+
+h2 {
+  font-size: 20px;
+  color: #999;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  border: 0;
+  background: #eee;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+button.issue-category:focus {
+  outline: 0;
+}
+
+button.issue-category.not-chosen {
+  opacity: 0.33;
+}
+
+#enhancement { background-color: #84b6eb; }
+#bug { background-color: #fc2929; color: #fff; }
+#question { background-color: #cc317c; color: #fff; }
+
+section {
+  border-bottom: 4px solid #eee;
+}
+
+.question {
+  height: 44px;
+  padding-bottom: 10px;
+}
+
+button#respond {
+  margin-top: 10px;
+  background-color: #eee;
+  color: #1873CC;
+}
+
+#personal-note {
+  display: block;
+  height: 44px;
+  padding: 12px;
+  font-size: 16px;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  width: 100%;
+  margin-bottom: 10px;
+}

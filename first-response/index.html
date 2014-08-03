@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../stylesheets/first-response.css">
+    <link rel="stylesheet" href="../stylesheets/markdown.css">
+  </head>
+  <body id="first-response">
+
+    <h2>First Response</h2>
+
+    <section>
+      <h1 id="issue-title"></h1>
+      <p id="issue-body"></p>
+    </section>
+
+    <section id="issue-categories">
+      <h2>Category</h2>
+      <button id="enhancement" class="issue-category">enhancement</button>
+      <button id="bug" class="issue-category">bug</button>
+      <button id="question" class="issue-category">question</button>
+    </section>
+
+<!--     <section id="additional-questions">
+      <h2>Questions to Ask</h2>
+      <div class="question">
+        <input type="checkbox" id="question_1">
+        <label for="question_1">What did you do?</label>
+      </div>
+
+      <div class="question">
+        <input type="checkbox" id="question_1">
+        <label for="question_1">What did you do?</label>
+      </div>
+
+      <div class="question">
+        <input type="checkbox" id="question_1">
+        <label for="question_1">What did you do?</label>
+      </div>
+
+      <div class="question">
+        <input type="checkbox" id="question_1">
+        <label for="question_1">What did you do?</label>
+      </div>
+    </section> -->
+
+    <section>
+      <h2>Personal Note</h2>
+      <input id="personal-note" type="text" value="">
+    </section>
+
+    <section>
+      <h2>Review Response</h2>
+      <div id="review-response" class="markdown"></div>
+    </section>
+
+    <button id="respond">Respond</button>
+
+    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="../bower_components/lodash/dist/lodash.js"></script>
+    <script src="../bower_components/marked/lib/marked.js"></script>
+    <script src="../javascripts/util.js"></script>
+    <script src="../javascripts/github.js"></script>
+    <script src="../javascripts/first-response.js"></script>
+  </body>
+</html>
