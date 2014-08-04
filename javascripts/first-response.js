@@ -8,6 +8,7 @@ gh.authenticate(function(){
     var config;
     var selectedCategory;
     var categoryQuestions;
+    var categoryNextSteps;
     var responseBody;
 
     if (!issNum || !repo) {
@@ -32,16 +33,23 @@ gh.authenticate(function(){
     // update the content on the page when we have the issue and config
     function update(){
       if (issue && config) {
-        console.log(config);
+        $('#form-state').hide();
+        $('#issue-form').show();
+        
         $('#issue-title').html(issue.title);
         $('#issue-body').html(issue.body);
-        $('#personal-note').val('@'+issue.user.login);
+
+        var onGithub = $('<p><a href="http://github.com/'+repo+'/issues/'+issNum+'">Answer on Github<a></p>');
+
+        $('#issue-body').append(onGithub);
+
+        $('#personal-note').val('@'+issue.user.login+' ');
 
         buildQuestions();
       }
     }
 
-    $('#personal-note').blur(buildResponse);
+    $('#personal-note').keyup(buildResponse);
 
     $('#enhancement').click(function(){ selectCategory('enhancement'); });
     $('#bug').click(function(){ selectCategory('bug'); });
@@ -58,26 +66,46 @@ gh.authenticate(function(){
     }
 
     function buildQuestions(){
+      var configKey = '';
       categoryQuestions = [];
-      config.report.steps.forEach(function(step){
-        if (step.prompt) {
-          categoryQuestions.push(step.desc);
-        }
-      });
+      categoryNextSteps = '';
+
+      if (selectedCategory == 'bug') {
+        configKey = 'report'
+      } else if (selectedCategory == 'enhancement') {
+        configKey = 'request'
+      } else {
+        configKey = selectedCategory;
+      }
+
+      if (config[configKey] && config[configKey].steps) {
+        config[configKey].steps.forEach(function(step){
+          if (step.prompt) {
+            categoryQuestions.push(step.desc);
+          }
+        });
+
+        categoryNextSteps = config[configKey].finished || '';
+      }
     }
 
     function buildResponse(){
       responseBody = $('#personal-note').val();
 
-      if (categoryQuestions) {
+      if (categoryQuestions && categoryQuestions.length > 0) {
         responseBody += '\n\n';
-        responseBody += '> ## Please make sure these questions are answered \n\n';
+        responseBody += '> ### Please make sure these questions are answered. \n\n';
+
         categoryQuestions.forEach(function(question){
-          responseBody += '> ' + question + '\n\n';
+          responseBody += '> - ' + question+'\n';
         });
+
+        if (categoryNextSteps) {
+          responseBody += '\n> ### '+categoryNextSteps;
+        }
       }
 
-      $('#review-response').html(marked(responseBody));
+      $('#review-response').html(marked(responseBody, { breaks:true }));
 
       return responseBody;
     }
@@ -87,18 +115,19 @@ gh.authenticate(function(){
         return alert('No category selected');
       }
       
+      $('#issue-form').hide();
+      $('#form-state').html('Processing...').show();
+
       gh.patch('/repos/'+repo+'/issues/'+issNum, {
         labels: [selectedCategory]
-      },
-      function(data, status, jqXHR){
+      }, function(data, status, jqXHR){
         console.log(data);
       });
 
       gh.post('/repos/'+repo+'/issues/'+issNum+'/comments', {
         body: buildResponse()
-      },
-      function(data, status, jqXHR){
-        console.log(data);
+      }, function(data, status, jqXHR){
+        $('#form-state').html('Issue submitted: '+status);
       });
 
     });

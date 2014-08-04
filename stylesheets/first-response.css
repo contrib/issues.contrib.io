@@ -3,6 +3,10 @@ body {
   line-height: 1.4em;
 }
 
+#issue-form {
+  display: none;
+}
+
 h2 {
   font-size: 20px;
   color: #999;
@@ -19,6 +23,7 @@ button {
   background: #eee;
   border-radius: 5px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 button.issue-category:focus {
