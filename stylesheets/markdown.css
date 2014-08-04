@@ -70,6 +70,7 @@ body > *:last-child {
   -webkit-font-smoothing: antialiased;
   cursor: text;
   position: relative;
+  text-transform: none;
 }
 
 .markdown h2:first-child, 
