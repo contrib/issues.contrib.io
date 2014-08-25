@@ -73,7 +73,7 @@ gh.getAuthToken = function(callback){
 
 gh.getAuthCode = function(){
   // redirect to github login, which will redirect back to this page
-  window.location.href = 'https://github.com/login/oauth/authorize?client_id='+client+'&scope=repo&redirect_uri='+encodeURIComponent(window.location.href);
+  window.location.href = 'https://github.com/login/oauth/authorize?client_id='+client+'&scope=public_repo&redirect_uri='+encodeURIComponent(window.location.href);
 };
 
 gh.get = function(urlPart, options, callback){
